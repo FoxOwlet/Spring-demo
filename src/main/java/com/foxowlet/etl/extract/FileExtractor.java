@@ -1,14 +1,22 @@
 package com.foxowlet.etl.extract;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
+@Component
+@Profile("flowerShop")
 public class FileExtractor implements Extractor<String> {
     private final Path filepath;
 
-    public FileExtractor(String filename) {
+    @Autowired
+    public FileExtractor(@Value("${input-file}") String filename) {
         this(new File(filename));
     }
 

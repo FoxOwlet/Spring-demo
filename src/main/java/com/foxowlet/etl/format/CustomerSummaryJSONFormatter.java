@@ -1,6 +1,8 @@
 package com.foxowlet.etl.format;
 
 import com.foxowlet.etl.domain.CustomerSummary;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
@@ -8,6 +10,8 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Component
+@Profile("flowerShop")
 public class CustomerSummaryJSONFormatter implements Formatter<CustomerSummary> {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
     private static final Map<String, Function<CustomerSummary, Object>> attributesMap = new LinkedHashMap<>();

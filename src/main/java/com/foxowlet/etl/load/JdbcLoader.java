@@ -1,5 +1,10 @@
 package com.foxowlet.etl.load;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
+
 import javax.sql.DataSource;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -10,12 +15,15 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Component
+@Profile("flowerShop")
+@Qualifier("summaryLoader")
 public class JdbcLoader<T> implements Loader<T> {
     private final DataSource dataSource;
     private final String tableName;
     private final Class<T> entityClass;
 
-    public JdbcLoader(DataSource dataSource, String tableName, Class<T> entityClass) {
+    public JdbcLoader(DataSource dataSource, @Value("${table-name}") String tableName, Class<T> entityClass) {
         this.dataSource = dataSource;
         this.tableName = tableName;
         this.entityClass = entityClass;

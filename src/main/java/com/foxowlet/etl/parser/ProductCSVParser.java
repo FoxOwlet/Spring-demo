@@ -1,11 +1,13 @@
 package com.foxowlet.etl.parser;
 
 import com.foxowlet.etl.domain.Product;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+@Component
 public class ProductCSVParser implements Parser<Product> {
     private static final String ENTITY = "product";
     private static final String NULL_INPUT_REASON = "input is null";

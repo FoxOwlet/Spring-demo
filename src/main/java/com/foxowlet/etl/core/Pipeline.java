@@ -3,9 +3,11 @@ package com.foxowlet.etl.core;
 import com.foxowlet.etl.extract.Extractor;
 import com.foxowlet.etl.load.Loader;
 import com.foxowlet.etl.transform.Transformation;
+import org.springframework.stereotype.Component;
 
 import java.util.stream.Stream;
 
+@Component
 public class Pipeline<T, R> {
     private final Extractor<T> extractor;
     private final Transformation<T, R> transformation;

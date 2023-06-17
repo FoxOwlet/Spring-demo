@@ -2,6 +2,8 @@ package com.foxowlet.etl.transform;
 
 import com.foxowlet.etl.domain.CustomerSummary;
 import com.foxowlet.etl.domain.Product;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.Clock;
 import java.time.LocalDate;
@@ -12,9 +14,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Component
 public class SummaryAggregation implements Transformation<Product, CustomerSummary> {
     private final Clock clock;
 
+    @Autowired
     public SummaryAggregation(Clock clock) {
         this.clock = clock;
     }
