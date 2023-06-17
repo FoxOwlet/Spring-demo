@@ -41,7 +41,7 @@ public class Main {
                                 new FileLoader("data/fruits-latest-summary.csv"),
                                 new CustomerSummaryCSVFormatter()),
                         new FormattedLoader<>(
-                                new FileLoader("data/fruits-test-summary.txt"),
+                                new FileLoader("dev-data/fruits-test-summary.txt"),
                                 Object::toString))));
 
         Pipeline<Product, CustomerSummary> flowerShopPipeline = new Pipeline<>(

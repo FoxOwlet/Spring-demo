@@ -38,6 +38,7 @@ build/
 ### H2 DB ###
 *.db
 
-### Input data ###
+### Output data ###
+dev-data/
 data/flower-latest.jsonl
 data/fruits-latest-summary.csv
