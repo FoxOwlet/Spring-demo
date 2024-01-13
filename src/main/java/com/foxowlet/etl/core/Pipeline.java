@@ -3,6 +3,7 @@ package com.foxowlet.etl.core;
 import com.foxowlet.etl.extract.Extractor;
 import com.foxowlet.etl.load.Loader;
 import com.foxowlet.etl.transform.Transformation;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Stream;
@@ -19,6 +20,7 @@ public class Pipeline<T, R> {
         this.loader = loader;
     }
 
+    @PostConstruct
     public void run() {
         Stream<T> raw = extractor.extract();
         Stream<R> transformed = transformation.transform(raw);

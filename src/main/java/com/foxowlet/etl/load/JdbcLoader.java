@@ -3,6 +3,7 @@ package com.foxowlet.etl.load;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
@@ -19,25 +20,19 @@ import java.util.stream.Stream;
 @Profile("flowerShop")
 @Qualifier("summaryLoader")
 public class JdbcLoader<T> implements Loader<T> {
-    private final DataSource dataSource;
+    private final JdbcTemplate jdbcTemplate;
     private final String tableName;
     private final Class<T> entityClass;
 
-    public JdbcLoader(DataSource dataSource, @Value("${table-name}") String tableName, Class<T> entityClass) {
-        this.dataSource = dataSource;
+    public JdbcLoader(JdbcTemplate jdbcTemplate, @Value("${table-name}") String tableName, Class<T> entityClass) {
+        this.jdbcTemplate = jdbcTemplate;
         this.tableName = tableName;
         this.entityClass = entityClass;
     }
 
     @Override
     public void load(Stream<T> data) {
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(makeQuery())) {
-            data.forEach(entity -> addRow(ps, entity));
-            ps.executeBatch();
-        } catch (SQLException e) {
-            throw new IllegalStateException("Can't load entities to the DB table", e);
-        }
+        jdbcTemplate.batchUpdate(makeQuery(), data.map(this::getFieldValues).toList());
     }
 
     private String makeQuery() {
@@ -71,18 +66,6 @@ public class JdbcLoader<T> implements Loader<T> {
             }
         }
         return sb.toString();
-    }
-
-    private void addRow(PreparedStatement ps, T entity) {
-        Object[] values = getFieldValues(entity);
-        try {
-            for (int i = 0; i < values.length; i++) {
-                ps.setObject(i + 1, values[i]);
-            }
-            ps.addBatch();
-        } catch (SQLException e) {
-            throw new IllegalStateException("Can't convert entity to table row", e);
-        }
     }
 
     private Object[] getFieldValues(T entity) {

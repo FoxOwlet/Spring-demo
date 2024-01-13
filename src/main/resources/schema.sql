@@ -5,4 +5,4 @@ CREATE TABLE IF NOT EXISTS customer_summary(
     unique_products INT NOT NULL,
     total_products INT NOT NULL,
     total_price BIGINT NOT NULL
-)
+);

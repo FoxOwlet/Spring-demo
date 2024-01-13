@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 
@@ -29,7 +30,7 @@ class JdbcLoaderTest {
     @BeforeEach
     void initDataBase() throws SQLException {
         Mockito.when(dataSource.getConnection()).thenAnswer(__ -> getConnection());
-        loader = new JdbcLoader<>(dataSource, "test_data", TestData.class);
+        loader = new JdbcLoader<>(new JdbcTemplate(dataSource), "test_data", TestData.class);
         createTable();
     }
 

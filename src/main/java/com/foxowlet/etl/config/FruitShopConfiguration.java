@@ -16,7 +16,6 @@ import java.util.Objects;
 
 @Configuration
 @Profile("fruitShop")
-@PropertySource("classpath:/fruit-shop.properties")
 public class FruitShopConfiguration {
 
     @Bean
